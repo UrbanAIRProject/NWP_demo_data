@@ -15,3 +15,9 @@ Now you can open the example demo by
 jupyer notebook ./documentation_antwerp.ipynb
 ```
 This will open the demo in your browser
+
+## Download all data
+You can download all data to the `data` directory by
+```
+python3 ./download.py
+```
