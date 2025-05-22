@@ -2,10 +2,13 @@ import os
 import requests
 from bs4 import BeautifulSoup
 
+from versions import UrbanAirData
+
 # Target URL
-base_url = "http://exporter.nsc.liu.se/8a930c993fe54eedbdd7d4451b45ea57"
+#base_url = "http://exporter.nsc.liu.se/8a930c993fe54eedbdd7d4451b45ea57"
+version = UrbanAirData.current_version
+base_url = UrbanAirData.base_url
 output_dir = "data"
-version = "4"
 
 # Create output directory
 os.makedirs(output_dir, exist_ok=True)
