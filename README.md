@@ -1,4 +1,4 @@
-# NWP_demo_data
+# NWP demo data
 Python and Jupyter notebook example for UrbanAir NWP data
 
 ## Install
