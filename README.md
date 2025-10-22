@@ -12,11 +12,15 @@ pip install requests bs4 wget notebook earthkit.data earthkit.plots
 ```
 Now you can open the v4 example demo by
 ```
-jupyer notebook ./documentation_antwerp.ipynb
+jupyter notebook ./documentation_antwerp.ipynb
 ```
-or the v5 example by
+the v5 example by
 ```
-jupyer notebook ./earthkit_example.ipynb
+jupyter notebook ./earthkit_example.ipynb
+```
+the v6 example by
+```
+jupyter notebook ./earthkit_example_paris.ipynb
 ```
 
 This will open the demo in your browser

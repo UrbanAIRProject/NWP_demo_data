@@ -1,12 +1,17 @@
 import os
 import requests
+import sys
 from bs4 import BeautifulSoup
+from urllib.parse import urljoin, urlparse
 
 from versions import UrbanAirData
 
+
 # Target URL
 version = UrbanAirData.current_version
-base_url = UrbanAirData.base_url
+print(version)
+base_url = UrbanAirData.base_url + "/"
+
 output_dir = f"data/{version}"
 
 # Create output directory
@@ -14,6 +19,9 @@ os.makedirs(output_dir, exist_ok=True)
 
 # Start session
 print(f"Download UrbanAir data v{version} from {base_url}")
+# Example
+download_dir(base_url,"data")
+sys.exit()
 session = requests.Session()
 response = session.get(base_url)
 
@@ -33,6 +41,9 @@ downloaded = 0
 hrefs = [link['href'] for link in links if not any([x in link['href'] for x in ['/', '?']])]
 
 print(f"Expect {len(hrefs)} files")
+for href in hrefs:
+    print(href)
+sys.exit()
 
 for href in hrefs:
     file_url = os.path.join(base_url, href)
