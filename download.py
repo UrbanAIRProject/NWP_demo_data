@@ -1,65 +1,181 @@
+#!/usr/bin/env python3
+"""
+More robust Apache index recursive downloader.
+
+Requires:
+    pip install requests beautifulsoup4
+"""
 import os
+import time
 import requests
-import sys
+from urllib.parse import urljoin, urlparse, unquote
 from bs4 import BeautifulSoup
-from urllib.parse import urljoin, urlparse
 
 from versions import UrbanAirData
 
+# ---------- CONFIG ----------
+MAX_RETRIES = 3
+RETRY_DELAY = 1.0
+SMALL_GET_BYTES = 2048  # bytes to request for detection
+# ----------------------------
 
-# Target URL
-version = UrbanAirData.current_version
-print(version)
-base_url = UrbanAirData.base_url + "/"
-
-output_dir = f"data/{version}"
-
-# Create output directory
-os.makedirs(output_dir, exist_ok=True)
-
-# Start session
-print(f"Download UrbanAir data v{version} from {base_url}")
-# Example
-download_dir(base_url,"data")
-sys.exit()
 session = requests.Session()
-response = session.get(base_url)
+session.headers.update({
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117 Safari/537.36"
+})
 
-# Check for success
-if response.status_code != 200:
-    print(f"Failed to access {base_url}: Status code {response.status_code}")
-    exit(1)
+def ensure_trailing_slash(url: str) -> str:
+    return url if url.endswith("/") else url + "/"
 
-# Parse HTML
-soup = BeautifulSoup(response.text, 'html.parser')
+def canonical_base(url: str) -> str:
+    p = urlparse(url)
+    path = p.path if p.path.endswith("/") else p.path + "/"
+    return f"{p.scheme}://{p.netloc}{path}"
 
-# Find all download links
-links = soup.find_all('a', href=True)
+def safe_request(method, url, **kwargs):
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            resp = session.request(method, url, timeout=20, allow_redirects=True, **kwargs)
+            return resp
+        except requests.RequestException as e:
+            print(f"⚠ Request error ({method}) {url}: {e} (attempt {attempt}/{MAX_RETRIES})")
+            if attempt < MAX_RETRIES:
+                time.sleep(RETRY_DELAY)
+            else:
+                raise
 
-downloaded = 0
-# Filter 
-hrefs = [link['href'] for link in links if not any([x in link['href'] for x in ['/', '?']])]
+def looks_like_apache_index(text: str) -> bool:
+    # simple heuristics: "Index of" title or typical <pre> listing present
+    head = text[:2000].lower()
+    return ("index of" in head) or ("<pre" in head) or ("name                    last modified" in head)
 
-print(f"Expect {len(hrefs)} files")
-for href in hrefs:
-    print(href)
-sys.exit()
+def is_directory(full_url: str, href: str) -> bool:
+    # If the link text/path ends with '/', treat as directory
+    if href.endswith("/"):
+        return True
 
-for href in hrefs:
-    file_url = os.path.join(base_url, href)
-    file_name = os.path.basename(href)
-    file_path = os.path.join(output_dir, file_name)
-    if os.path.isfile(file_path):
-       print(f"{file_url} already exists as {file_path}")
-    else:
-       print(f"Downloading {file_url} to {file_path}")
-       file_resp = session.get(file_url)
-       if file_resp.status_code == 200:
-           with open(file_path, 'wb') as f:
-               f.write(file_resp.content)
-           downloaded += 1
-       else:
-           print(f"Failed to download {file_url}: Status code {file_resp.status_code}")
+    # Try a small GET (safer than HEAD which is often blocked)
+    try:
+        # Range header to limit downloaded bytes
+        resp = safe_request("GET", full_url, stream=True, headers={"Range": f"bytes=0-{SMALL_GET_BYTES-1}"})
+        ct = resp.headers.get("Content-Type", "").lower()
+        # if server redirected and final URL ends with '/', treat as dir
+        if resp.url.endswith("/"):
+            return True
+        if "text/html" in ct:
+            # check for index-like HTML
+            # read small chunk of text safely
+            try:
+                snippet = resp.content.decode(errors="ignore")
+            except Exception:
+                snippet = ""
+            if looks_like_apache_index(snippet):
+                return True
+    except Exception:
+        # Could not fetch/detect — assume file (safer)
+        return False
 
-print(f"Downloaded {downloaded} files to '{output_dir}'")
+    return False
+
+def sanitize_local_path_from_url(full_url: str, base_root: str) -> str:
+    # remove query/fragment and map path relative to base_root
+    p_full = urlparse(full_url)
+    # build absolute path (path only)
+    path = p_full.path
+    # relative to base root path
+    p_base = urlparse(base_root)
+    rel = path[len(p_base.path):].lstrip("/")
+    # decode percent-encoding
+    rel = unquote(rel)
+    return rel
+
+def download_file(full_url: str, local_path: str):
+    os.makedirs(os.path.dirname(local_path), exist_ok=True)
+    if os.path.exists(local_path):
+        print(f" Skipping existing: {local_path}")
+        return
+    print(f"Downloading: {full_url} -> {local_path}")
+    resp = safe_request("GET", full_url, stream=True)
+    resp.raise_for_status()
+    with open(local_path, "wb") as f:
+        for chunk in resp.iter_content(chunk_size=8192):
+            if chunk:
+                f.write(chunk)
+
+def crawl_dir(url: str, outdir: str, base_root: str, visited=set()):
+    url = ensure_trailing_slash(url)
+    if url in visited:
+        return
+    visited.add(url)
+    try:
+        resp = safe_request("GET", url)
+    except Exception as e:
+        print(f"Failed to fetch {url}: {e}")
+        return
+
+    if resp.status_code >= 400:
+        print(f"HTTP {resp.status_code} for {url}")
+        return
+
+    soup = BeautifulSoup(resp.text, "html.parser")
+    anchors = soup.find_all("a")
+    if not anchors:
+        # sometimes directory listings live in <pre> with raw lines — try to parse them
+        text = resp.text
+        for line in text.splitlines():
+            # very simple heuristic: if line contains href-like text, skip complicated parsing here
+            pass
+
+    for a in anchors:
+        href = a.get("href")
+        if not href:
+            continue
+        # skip parent references
+        if href in ("../", "..", "/"):
+            continue
+        if href.startswith("?"):
+            continue
+
+        full = urljoin(url, href)
+        # ensure we stay under base_root (same scheme+netloc+path prefix)
+        if not full.startswith(base_root):
+            # skip external or up-tree links
+            continue
+
+        # determine local path (strip query/fragment)
+        rel_local = sanitize_local_path_from_url(full, base_root)
+        if not rel_local:
+            # it refers to the base directory itself
+            continue
+        local_path = os.path.join(outdir, rel_local)
+
+        try:
+            if is_directory(full, href):
+                # ensure dir exists locally and recurse
+                os.makedirs(local_path, exist_ok=True)
+                # Some servers require requesting the slash-terminated URL; enforce it
+                next_url = ensure_trailing_slash(full)
+                crawl_dir(next_url, outdir, base_root, visited)
+            else:
+                # file: ensure directory exists
+                os.makedirs(os.path.dirname(local_path), exist_ok=True)
+                download_file(full, local_path)
+        except Exception as e:
+            print(f"Error with {full}: {e}")
+
+def main():
+    # Target URL
+    version = '5.0'
+    #version = UrbanAirData.current_version
+    output_dir = f"data/{version}"
+    # Create output directory
+    os.makedirs(output_dir, exist_ok=True)
+    base = ensure_trailing_slash(UrbanAirData().url_version(version))
+    print(f"Download UrbanAir data v{version} from {base}")
+    base_root = canonical_base(base)
+    crawl_dir(base_root, output_dir, base_root)
+    print("\n Done.")
+
+if __name__ == "__main__":
+    main()
 

@@ -10,15 +10,15 @@ micromamba create -n urbanair_demo python=3.10
 micromamba activate urbanair_demo
 pip install requests bs4 wget notebook earthkit.data earthkit.plots
 ```
-Now you can open the v4 example demo by
+Now you can open the Antwerpen example demo by
 ```
 jupyter notebook ./documentation_antwerp.ipynb
 ```
-the v5 example by
+or
 ```
-jupyter notebook ./earthkit_example.ipynb
+jupyter notebook ./earthkit_example_antwerpen.ipynb
 ```
-the v6 example by
+For Paris use
 ```
 jupyter notebook ./earthkit_example_paris.ipynb
 ```
@@ -30,6 +30,7 @@ You can download all data to the `data` directory by
 ```
 python3 ./download.py
 ```
+Change the version you want to download at the end of download.py.
 
 ## List file content
 After install the above mentioned environment the GRIB files can be listed with `grib_ls` as e.g.
