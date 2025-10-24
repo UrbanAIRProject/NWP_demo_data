@@ -5,10 +5,9 @@ from dataclasses import dataclass
 class UrbanAirData:
 
     urls = { 
-            "0.2": { "url": "http://exporter.nsc.liu.se/bd6b45b289f44b08a0ae82055591ce99", "doc": "Paris test" },
-            "4": { "url" : "http://exporter.nsc.liu.se/28e80f79cad547988e7a0b64809e0dc3", "doc": "Test"},
+            "4": { "url" : "http://exporter.nsc.liu.se/28e80f79cad547988e7a0b64809e0dc3", "doc": "Antwerpen test"},
             "5.0": { "url": "http://exporter.nsc.liu.se/1c333ab5ee374ab2acb470b2870cc02e", "doc": "Antwerpen"},
-            "6.0": { "url": "http://exporter.nsc.liu.se/75e34a3e256a45c38b88bb3b6232f71a", "doc": "Paris" },
+            "6.1": { "url": "http://exporter.nsc.liu.se/284818358def438b8c142f4223c96936", "doc": "Paris" },
     }
     current_version = list(urls)[-1]
     base_url = urls[current_version]["url"]
