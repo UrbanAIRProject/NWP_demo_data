@@ -5,7 +5,9 @@ More robust Apache index recursive downloader.
 Requires:
     pip install requests beautifulsoup4
 """
+import argparse
 import os
+import sys
 import time
 import requests
 from urllib.parse import urljoin, urlparse, unquote
@@ -163,19 +165,37 @@ def crawl_dir(url: str, outdir: str, base_root: str, visited=set()):
         except Exception as e:
             print(f"Error with {full}: {e}")
 
-def main():
+def main(argv):
+    parser = argparse.ArgumentParser(description='Unpack vfld files')
+    parser.add_argument('-v',dest="version",help='Version',required=False,default=None)
+    parser.add_argument('-l',dest="list",action="store_true", help='List version',required=False,default=False)
+
+    if len(argv) == 1 :
+     parser.print_help()
+     sys.exit()
+
+    args = parser.parse_args()
+
+    uad = UrbanAirData()
+    if args.list:
+        print(uad)
+        sys.exit()
+
     # Target URL
-    version = '5.0'
-    #version = UrbanAirData.current_version
+    version = UrbanAirData().url_version(args.version)
+    if version is None:
+        sys.exit(1)
+    base = ensure_trailing_slash(version)
+    print(f"Download UrbanAir data v{args.version} from {base}")
+    base_root = canonical_base(base)
+
     output_dir = f"data/{version}"
     # Create output directory
     os.makedirs(output_dir, exist_ok=True)
-    base = ensure_trailing_slash(UrbanAirData().url_version(version))
-    print(f"Download UrbanAir data v{version} from {base}")
-    base_root = canonical_base(base)
+
     crawl_dir(base_root, output_dir, base_root)
     print("\n Done.")
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main(sys.argv))
 

@@ -5,17 +5,18 @@ from dataclasses import dataclass
 class UrbanAirData:
 
     urls = { 
-        "4": "http://exporter.nsc.liu.se/28e80f79cad547988e7a0b64809e0dc3",
-        "5.0": "http://exporter.nsc.liu.se/1c333ab5ee374ab2acb470b2870cc02e",
-        "6.0": "http://exporter.nsc.liu.se/75e34a3e256a45c38b88bb3b6232f71a",
+            "0.2": { "url": "http://exporter.nsc.liu.se/bd6b45b289f44b08a0ae82055591ce99", "doc": "Paris test" },
+            "4": { "url" : "http://exporter.nsc.liu.se/28e80f79cad547988e7a0b64809e0dc3", "doc": "Test"},
+            "5.0": { "url": "http://exporter.nsc.liu.se/1c333ab5ee374ab2acb470b2870cc02e", "doc": "Antwerpen"},
+            "6.0": { "url": "http://exporter.nsc.liu.se/75e34a3e256a45c38b88bb3b6232f71a", "doc": "Paris" },
     }
     current_version = list(urls)[-1]
-    base_url = urls[current_version]
+    base_url = urls[current_version]["url"]
 
     def __repr__(self):
         return("UrbanAirData")
     def __str__(self):
-        txt = "Test data versions:\n"
+        txt = "Available versions:\n"
         for k, v in self.urls.items():
             txt += f"  {k}: {v}\n"
         return(txt)
@@ -27,10 +28,10 @@ class UrbanAirData:
         try:
             if not isinstance(version, str):
                 version = str(version)
-            url = self.urls[version]
+            url = self.urls[version]["url"]
         except KeyError:
             print(f"Version {version} is not available")
-            print(f"Available versions are: {list(self.urls.keys())}")
+            print(self)
             url = None
 
         return url
