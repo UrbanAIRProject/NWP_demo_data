@@ -1,0 +1,15 @@
+dependencies:
+  - jupyter
+  - ipykernel
+  - pip
+  - bottleneck
+  - pip:
+      - bs4
+      - earthkit
+      - earthkit-plots
+      - earthkit-geo
+      - notebook
+      - polytope-client
+      - pyfdb
+      - pygrok
+      - wget

@@ -3,16 +3,20 @@ Python and Jupyter notebook example for UrbanAir NWP data
 
 ## Install
 
-To install the demo e.g. locally do, in this case with micromamba,
+To install the demo e.g. locally do, in this case with micromamba, and preferred python version
 
 ```
+python_version=3.10
 micromamba create -n urbanair_demo python=3.10 
+micromamba env update -n urbanair_demo_$python_version -f environment.yml
 micromamba activate urbanair_demo
-pip install requests bs4 wget notebook earthkit.data earthkit.plots
+
+# Create a kernel for jupyer notebook
+python3 -m ipykernel install --user --name=urbanair_demo_$python_version
 ```
 
 ## List and download data
-You can list all available data and some their properties by
+You can list all available data and some of their properties by
 ```
 >python3 ./download.py -l
 Available versions:
