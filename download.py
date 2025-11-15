@@ -166,7 +166,7 @@ def crawl_dir(url: str, outdir: str, base_root: str, visited=set()):
             print(f"Error with {full}: {e}")
 
 def main(argv):
-    parser = argparse.ArgumentParser(description='Unpack vfld files')
+    parser = argparse.ArgumentParser(description='Downdloads UrbanAir test data')
     parser.add_argument('-v',dest="version",help='Version',required=False,default=None)
     parser.add_argument('-l',dest="list",action="store_true", help='List version',required=False,default=False)
 
