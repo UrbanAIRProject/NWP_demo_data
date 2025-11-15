@@ -59,9 +59,15 @@ or
 ```
 jupyter notebook ./earthkit_example_antwerpen.ipynb
 ```
-For Paris use
+For Paris we have three examples:
+ - earthkit_example_paris.ipynb : Downloads from NSC storage
+ - earthkit_example_paris_polytope.ipynb: Downloads using polytope
+ - paris_time_height_plot_subhour_200m.ipynb : Example with 30s output frequency, only available from within ECMWF
+
+Run with e.g.
 ```
 jupyter notebook ./earthkit_example_paris.ipynb
 ```
+
 
 This will open the demo in your browser
