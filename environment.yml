@@ -6,6 +6,7 @@ dependencies:
   - pip:
       - bs4
       - earthkit
+      - earthkit-data
       - earthkit-plots
       - earthkit-geo
       - notebook
