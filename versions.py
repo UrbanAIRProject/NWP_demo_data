@@ -7,6 +7,14 @@ class UrbanAirData:
     data_info = {
         "Antwerpen": {"nx": 139, "ny": 139, "dx": 500},
         "Paris": {"nx": 989, "ny": 989, "dx": 500},
+        "Paris_7.1": {
+            "nx": 989,
+            "ny": 989,
+            "dx": 500,
+            "date": "2023-08-20T00:00:00Z",
+            "forecast_range": "PT36H",
+            "output_frequency": "PT15M",
+        },
     }
     urls = {
         "4": {
@@ -23,6 +31,11 @@ class UrbanAirData:
             "name": "Paris",
             "url": "http://exporter.nsc.liu.se/284818358def438b8c142f4223c96936",
             "metadata": data_info["Paris"],
+        },
+        "7.1": {
+            "name": "Paris 7.1",
+            "url": "http://exporter.nsc.liu.se/f1559d3fb24e47b5b9b3f77905a8bcba",
+            "metadata": data_info["Paris_7.1"],
         },
     }
     current_version = list(urls)[-1]

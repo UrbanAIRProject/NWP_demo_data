@@ -32,10 +32,14 @@ Available versions:
     name: Paris
     url: http://exporter.nsc.liu.se/284818358def438b8c142f4223c96936
     metadata: {'nx': 989, 'ny': 989, 'dx': 500}
+  v7.1:
+    name: Paris
+    url: http://exporter.nsc.liu.se/284818358def438b8c142f4223c96936
+    metadata: {'nx': 989, 'ny': 989, 'dx': 500, 'forecast_range': 'PT36H', 'output_frequency': 'PT15M'}
 ```
 Download the version you're interested in, e.g. Paris, to the `data` directory by
 ```
-python3 ./download.py -v 6.1
+python3 ./download.py -v 7.0
 ```
 
 ## List file content
