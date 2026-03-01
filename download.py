@@ -22,34 +22,49 @@ SMALL_GET_BYTES = 2048  # bytes to request for detection
 # ----------------------------
 
 session = requests.Session()
-session.headers.update({
-    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117 Safari/537.36"
-})
+session.headers.update(
+    {
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117 Safari/537.36"
+    }
+)
+
 
 def ensure_trailing_slash(url: str) -> str:
     return url if url.endswith("/") else url + "/"
+
 
 def canonical_base(url: str) -> str:
     p = urlparse(url)
     path = p.path if p.path.endswith("/") else p.path + "/"
     return f"{p.scheme}://{p.netloc}{path}"
 
+
 def safe_request(method, url, **kwargs):
     for attempt in range(1, MAX_RETRIES + 1):
         try:
-            resp = session.request(method, url, timeout=20, allow_redirects=True, **kwargs)
+            resp = session.request(
+                method, url, timeout=20, allow_redirects=True, **kwargs
+            )
             return resp
         except requests.RequestException as e:
-            print(f"⚠ Request error ({method}) {url}: {e} (attempt {attempt}/{MAX_RETRIES})")
+            print(
+                f"⚠ Request error ({method}) {url}: {e} (attempt {attempt}/{MAX_RETRIES})"
+            )
             if attempt < MAX_RETRIES:
                 time.sleep(RETRY_DELAY)
             else:
                 raise
 
+
 def looks_like_apache_index(text: str) -> bool:
     # simple heuristics: "Index of" title or typical <pre> listing present
     head = text[:2000].lower()
-    return ("index of" in head) or ("<pre" in head) or ("name                    last modified" in head)
+    return (
+        ("index of" in head)
+        or ("<pre" in head)
+        or ("name                    last modified" in head)
+    )
+
 
 def is_directory(full_url: str, href: str) -> bool:
     # If the link text/path ends with '/', treat as directory
@@ -59,7 +74,12 @@ def is_directory(full_url: str, href: str) -> bool:
     # Try a small GET (safer than HEAD which is often blocked)
     try:
         # Range header to limit downloaded bytes
-        resp = safe_request("GET", full_url, stream=True, headers={"Range": f"bytes=0-{SMALL_GET_BYTES-1}"})
+        resp = safe_request(
+            "GET",
+            full_url,
+            stream=True,
+            headers={"Range": f"bytes=0-{SMALL_GET_BYTES-1}"},
+        )
         ct = resp.headers.get("Content-Type", "").lower()
         # if server redirected and final URL ends with '/', treat as dir
         if resp.url.endswith("/"):
@@ -79,6 +99,7 @@ def is_directory(full_url: str, href: str) -> bool:
 
     return False
 
+
 def sanitize_local_path_from_url(full_url: str, base_root: str) -> str:
     # remove query/fragment and map path relative to base_root
     p_full = urlparse(full_url)
@@ -86,10 +107,11 @@ def sanitize_local_path_from_url(full_url: str, base_root: str) -> str:
     path = p_full.path
     # relative to base root path
     p_base = urlparse(base_root)
-    rel = path[len(p_base.path):].lstrip("/")
+    rel = path[len(p_base.path) :].lstrip("/")
     # decode percent-encoding
     rel = unquote(rel)
     return rel
+
 
 def download_file(full_url: str, local_path: str):
     os.makedirs(os.path.dirname(local_path), exist_ok=True)
@@ -103,6 +125,7 @@ def download_file(full_url: str, local_path: str):
         for chunk in resp.iter_content(chunk_size=8192):
             if chunk:
                 f.write(chunk)
+
 
 def crawl_dir(url: str, outdir: str, base_root: str, visited=set()):
     url = ensure_trailing_slash(url)
@@ -165,14 +188,24 @@ def crawl_dir(url: str, outdir: str, base_root: str, visited=set()):
         except Exception as e:
             print(f"Error with {full}: {e}")
 
-def main(argv):
-    parser = argparse.ArgumentParser(description='Downdloads UrbanAir test data')
-    parser.add_argument('-v',dest="version",help='Version',required=False,default=None)
-    parser.add_argument('-l',dest="list",action="store_true", help='List version',required=False,default=False)
 
-    if len(argv) == 1 :
-     parser.print_help()
-     sys.exit()
+def main(argv):
+    parser = argparse.ArgumentParser(description="Downdloads UrbanAir test data")
+    parser.add_argument(
+        "-v", dest="version", help="Version", required=False, default=None
+    )
+    parser.add_argument(
+        "-l",
+        dest="list",
+        action="store_true",
+        help="List version",
+        required=False,
+        default=False,
+    )
+
+    if len(argv) == 1:
+        parser.print_help()
+        sys.exit()
 
     args = parser.parse_args()
 
@@ -196,6 +229,6 @@ def main(argv):
     crawl_dir(base_root, output_dir, base_root)
     print("\n Done.")
 
+
 if __name__ == "__main__":
     sys.exit(main(sys.argv))
-
