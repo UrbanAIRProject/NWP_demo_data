@@ -1,5 +1,11 @@
 # NWP demo data
-Python and Jupyter notebook example for UrbanAir NWP data
+Documentation with Python and Jupyter notebook examples for UrbanAir NWP data. Data can be 
+accessed in three ways
+ * Via http URL's from nsc.liu.se. This includes all data stored as files
+ * Using ECMWF's polytope API. This does not yet cover the tiled surface data
+ * Using FDB directly on ECMWF's HPC. This does not yet cover the tiled surface data
+
+The two latter enables field extractions whereas the first works with files.
 
 ## Install
 
@@ -20,35 +26,46 @@ You can list all available data and some of their properties by
 ```
 >python3 ./download.py -l
 Available versions:
-  ...
-  v6.1:
-    name: Paris
-    url: http://exporter.nsc.liu.se/284818358def438b8c142f4223c96936
-     nx: 989
-     ny: 989
-     dx: 500
-  v7.1:
-    name: Paris 7.1
-    url: http://exporter.nsc.liu.se/f1559d3fb24e47b5b9b3f77905a8bcba
-     nx: 989
-     ny: 989
-     dx: 500
-     date: 2023-08-20T00:00:00Z
-     forecast_range: PT36H
-     output_frequency: PT15M
-     fdb: {'expver': 'aabg', 'georef': 'u09tvk'}
-     polytope: {'collection': 'deode', 'url': 'polytope-test.ecmwf.int'}
-  v8.0:
-    name: Paris 8.0
-    url: None
-     nx: 989
-     ny: 989
-     dx: 500
-     date: 2023-08-20T00:00:00Z
-     forecast_range: PT48H
-     output_frequency: PT15M
-     fdb: {'expver': 'aad4', 'georef': 'u09tvk'}
-     polytope: {'collection': 'deode', 'url': 'polytope-test.ecmwf.int'}
+...
+7.1:
+  name: Paris 7.1
+  url: http://exporter.nsc.liu.se/f1559d3fb24e47b5b9b3f77905a8bcba
+  metadata:
+   nx: 989
+   ny: 989
+   dx: 500
+   date: 2023-08-20T00:00:00Z
+   forecast_range: PT36H
+   output_frequency: PT15M
+   fdb:
+    expver: aabg
+    georef: u09tvk
+   polytope:
+    collection: deode
+    url: polytope-test.ecmwf.int
+ 
+8.0:
+  name: Paris 8.0
+  url: http://exporter.nsc.liu.se/aebc1d3690d441cf82818d9893fa9e57
+  metadata:
+   nx: 989
+   ny: 989
+   dx: 500
+   date: 2023-08-20T00:00:00Z
+   forecast_range: PT48H
+   output_frequency: PT15M
+   toc:
+    climate_fields: http://exporter.nsc.liu.se/aebc1d3690d441cf82818d9893fa9e57/Const.Clim.grib2.toc
+    surface_fields: http://exporter.nsc.liu.se/aebc1d3690d441cf82818d9893fa9e57/2023/08/20/GRIBTILEDEOD+0048h00m00s.sfx.toc
+    atmospheric_fields: http://exporter.nsc.liu.se/aebc1d3690d441cf82818d9893fa9e57/2023/08/20/GRIBPFDEOD+0048h00m00s.toc
+   fdb:
+    expver: aad4
+    georef: u09tvk
+   polytope:
+    collection: deode
+    url: polytope-test.ecmwf.int
+
+
 ```
 Download the version you're interested in, e.g. Paris, to the `data` directory by
 ```
@@ -67,7 +84,11 @@ edition      centre       date         dataType     gridType     stepRange    ty
 2            lfpw         20240811     fc           lambert_lam  0s           surface      0            h            grid_ccsds  
 ```
 
-## Inspect in jupyter notebooks
+For each file type the listings are available in the \*.toc files listed above.
+
+## Inspect and download in jupyter notebooks
+
+
 
 ### Paris
 For Paris we have four examples valid for runs >=v7.1 

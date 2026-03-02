@@ -78,16 +78,21 @@ class UrbanAirData:
     def __repr__(self):
         return "UrbanAirData"
 
+    def dict_print(self, d, indent=0, prefix=""):
+        txt = ""
+        for k, v in d.items():
+            for i in range(0, indent):
+                txt += " "
+            if isinstance(v, dict):
+                txt += f"{prefix}{k}:\n"
+                txt += self.dict_print(v, indent + 1)
+            else:
+                txt += f"{k}: {v}\n"
+        return txt
+
     def __str__(self):
         txt = "Available versions:\n"
-        for k, v in self.urls.items():
-            txt += f"  v{k}:\n"
-            for x, y in v.items():
-                if isinstance(y, dict):
-                    for z, u in y.items():
-                        txt += f"     {z}: {u}\n"
-                else:
-                    txt += f"    {x}: {y}\n"
+        txt += self.dict_print(self.urls, 1, prefix="\n")
         return txt
 
     def url_version(self, version=None):
