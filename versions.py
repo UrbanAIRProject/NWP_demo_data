@@ -17,7 +17,7 @@ class UrbanAirData:
             "fdb": {
                 "expver": "aabg",
                 "georef": "u09tvk",
-             },
+            },
             "polytope": {
                 "collection": "deode",
                 "url": "polytope-test.ecmwf.int",
@@ -30,10 +30,15 @@ class UrbanAirData:
             "date": "2023-08-20T00:00:00Z",
             "forecast_range": "PT48H",
             "output_frequency": "PT15M",
+            "toc": {
+                "climate_fields": "http://exporter.nsc.liu.se/aebc1d3690d441cf82818d9893fa9e57/Const.Clim.grib2.toc",
+                "surface_fields": "http://exporter.nsc.liu.se/aebc1d3690d441cf82818d9893fa9e57/2023/08/20/GRIBTILEDEOD+0048h00m00s.sfx.toc",
+                "atmospheric_fields": "http://exporter.nsc.liu.se/aebc1d3690d441cf82818d9893fa9e57/2023/08/20/GRIBPFDEOD+0048h00m00s.toc",
+            },
             "fdb": {
                 "expver": "aad4",
                 "georef": "u09tvk",
-             },
+            },
             "polytope": {
                 "collection": "deode",
                 "url": "polytope-test.ecmwf.int",
@@ -63,7 +68,7 @@ class UrbanAirData:
         },
         "8.0": {
             "name": "Paris 8.0",
-            "url":  "http://exporter.nsc.liu.se/aebc1d3690d441cf82818d9893fa9e57",
+            "url": "http://exporter.nsc.liu.se/aebc1d3690d441cf82818d9893fa9e57",
             "metadata": data_info["Paris_8.0"],
         },
     }
@@ -78,7 +83,7 @@ class UrbanAirData:
         for k, v in self.urls.items():
             txt += f"  v{k}:\n"
             for x, y in v.items():
-                if isinstance(y,dict):
+                if isinstance(y, dict):
                     for z, u in y.items():
                         txt += f"     {z}: {u}\n"
                 else:
