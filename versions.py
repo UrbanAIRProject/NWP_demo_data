@@ -63,7 +63,7 @@ class UrbanAirData:
         },
         "8.0": {
             "name": "Paris 8.0",
-            "url": None,
+            "url":  "http://exporter.nsc.liu.se/aebc1d3690d441cf82818d9893fa9e57",
             "metadata": data_info["Paris_8.0"],
         },
     }
