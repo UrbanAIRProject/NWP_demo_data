@@ -21,6 +21,16 @@ micromamba activate urbanair_demo
 python3 -m ipykernel install --user --name=urbanair_demo
 ```
 
+## Polytope access
+To use polytope put your ECMWF web API key, https://api.ecmwf.int/v1/key/ in a ~/.polytopeapirc file as
+```
+{
+  "user_key" : "some_hash",
+  "user_email" : "foo.bar@somewhere.ok"
+}
+```
+If you do not yet have an ECMWF account please contact the NWP group.
+
 ## List and download data
 You can list all available data and some of their properties by
 ```
