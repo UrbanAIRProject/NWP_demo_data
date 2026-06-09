@@ -41,7 +41,7 @@ class UrbanAirData:
             },
             "polytope": {
                 "collection": "deode",
-                "url": "polytope-test.ecmwf.int",
+                "url": "polytope.ecmwf.int",
             },
         },
     }
