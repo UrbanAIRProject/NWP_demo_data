@@ -106,6 +106,7 @@ For Paris we have four examples valid for runs >=v7.1
  - earthkit_example_paris_polytope.ipynb: Downloads using polytope or fdb directly on atos
  - paris_time_height_plot.ipynb : Downloads using poltype/fdb and creates a time-heigh plot
  - paris_time_height_plot_subhour_200m.ipynb : Example with 30s output frequency over a smaller domain, only available from within ECMWF
+ - polytope_fetch.ipynb: Downloads v9.0 data
 
 Run with e.g.
 ```
@@ -113,3 +114,6 @@ jupyter notebook ./earthkit_example_paris.ipynb
 ```
 
 This will open the demo in your browser
+
+## Create toc from fdb
+Run fdb.scan.py with correct expver to create a json with all parameters stored. Remember to load the latest ecmwf-toolbox before you run
