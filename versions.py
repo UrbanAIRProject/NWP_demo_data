@@ -44,6 +44,23 @@ class UrbanAirData:
                 "url": "polytope.ecmwf.int",
             },
         },
+        "Paris_9.0": {
+            "nx": 989,
+            "ny": 989,
+            "dx": 500,
+            "date": "2023-08-20T15:00:00Z",
+            "forecast_range": "PT36",
+            "output_frequency": "PT15M",
+            "fdb": {
+                "expver": "aagp",
+                "georef": "u09tvk",
+            },
+            "json": "json/aagp.json",
+            "polytope": {
+                "collection": "deode",
+                "url": "polytope.ecmwf.int",
+            },
+        },
     }
     urls = {
         "4": {
@@ -70,6 +87,11 @@ class UrbanAirData:
             "name": "Paris 8.0",
             "url": "http://exporter.nsc.liu.se/aebc1d3690d441cf82818d9893fa9e57",
             "metadata": data_info["Paris_8.0"],
+        },
+        "9.0": {
+            "name": "Paris 9.0",
+            "url": "polytope.ecmwf.int",
+            "metadata": data_info["Paris_9.0"],
         },
     }
     current_version = list(urls)[-1]
