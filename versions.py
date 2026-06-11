@@ -1,9 +1,10 @@
 # UrbanAir data versions
 from dataclasses import dataclass
+import json
 
 
 @dataclass
-class UrbanAirData:
+class UrbanAirData():
     data_info = {
         "Antwerpen": {"nx": 139, "ny": 139, "dx": 500},
         "Paris": {"nx": 989, "ny": 989, "dx": 500},
@@ -115,7 +116,30 @@ class UrbanAirData:
     def __str__(self):
         txt = "Available versions:\n"
         txt += self.dict_print(self.urls, 1, prefix="\n")
+        
         return txt
+
+    def show(self, version=None):
+        if version is None:
+            version = self.current_version
+      
+        txt = self.dict_print(self.urls[version], 1, prefix="\n")
+        json_file = self.urls[version]["metadata"]["json"]
+        with open(json_file, "r", encoding="utf-8") as f:
+            toc = json.load(f)
+
+        txt +=f"\nData available from polytope ( from {json_file} )\n"
+        for levtype, content in toc.items():
+          txt += f"\nLevtype:{levtype}\n"
+          for i, group in enumerate(content):
+            txt += f" group:{i}\n"
+            for key, values in group.items():
+              txt += f"  {key}: {values}\n"
+          
+        #txt += json.dumps(toc#)
+
+        return txt
+
 
     def url_version(self, version=None):
         if version is None:
@@ -130,3 +154,7 @@ class UrbanAirData:
             url = None
 
         return url
+
+uad = UrbanAirData()
+
+print(uad.show())

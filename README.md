@@ -32,6 +32,12 @@ To use polytope put your ECMWF web API key, https://api.ecmwf.int/v1/key/ in a ~
 If you do not yet have an ECMWF account please contact the NWP group.
 
 ## List and download data
+
+### List info about the latest version
+```
+>python3 ./versions.py
+...
+
 You can list all available data and some of their properties by
 ```
 >python3 ./download.py -l
