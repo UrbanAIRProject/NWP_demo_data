@@ -22,8 +22,8 @@ class UrbanAirData():
             },
             "json": "json/aabg.json",
             "polytope": {
-                "collection": "deode",
-                "url": "polytope-test.ecmwf.int",
+                "collection": "ecmwf-mars",
+                "url": "polytope.ecmwf.int",
                 "ts_present": False,
             },
         },
@@ -46,7 +46,7 @@ class UrbanAirData():
             },
             "json": "json/aad4.json",
             "polytope": {
-                "collection": "deode",
+                "collection": "ecmwf-mars",
                 "url": "polytope.ecmwf.int",
                 "ts_present": False,
             },
@@ -65,7 +65,7 @@ class UrbanAirData():
             },
             "json": "json/aagp.json",
             "polytope": {
-                "collection": "deode",
+                "collection": "ecmwf-mars",
                 "url": "polytope.ecmwf.int",
                 "ts_present": True,
             },
@@ -84,7 +84,7 @@ class UrbanAirData():
             },
             "json": "json/aagw.json",
             "polytope": {
-                "collection": "deode",
+                "collection": "ecmwf-mars",
                 "url": "polytope.ecmwf.int",
                 "ts_present": True,
             },
@@ -105,7 +105,7 @@ class UrbanAirData():
             },
             "json": "json/aah0.json",
             "polytope": {
-                "collection": "deode",
+                "collection": "ecmwf-mars",
                 "url": "polytope.ecmwf.int",
                 "ts_present": True,
             },
@@ -126,7 +126,7 @@ class UrbanAirData():
             },
             "json": "json/aah1.json",
             "polytope": {
-                "collection": "deode",
+                "collection": "ecmwf-mars",
                 "url": "polytope.ecmwf.int",
                 "ts_present": True,
             },
