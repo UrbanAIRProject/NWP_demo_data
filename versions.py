@@ -36,9 +36,9 @@ class UrbanAirData():
             "forecast_range": "PT48H",
             "output_frequency": "PT15M",
             "toc": {
-                "climate_fields": "http://exporter.nsc.liu.se/aebc1d3690d441cf82818d9893fa9e57/Const.Clim.grib2.toc",
-                "surface_fields": "http://exporter.nsc.liu.se/aebc1d3690d441cf82818d9893fa9e57/2023/08/20/GRIBTILEDEOD+0048h00m00s.sfx.toc",
-                "atmospheric_fields": "http://exporter.nsc.liu.se/aebc1d3690d441cf82818d9893fa9e57/2023/08/20/GRIBPFDEOD+0048h00m00s.toc",
+                "climate_fields": "http://exporter.nsc.liu.se/51a5347655a04558ab0c44fed100686b/Const.Clim.grib2.toc",
+                "surface_fields": "http://exporter.nsc.liu.se/51a5347655a04558ab0c44fed100686b/2023/08/20/GRIBTILEDEOD+0048h00m00s.sfx.toc",
+                "atmospheric_fields": "http://exporter.nsc.liu.se/51a5347655a04558ab0c44fed100686b/2023/08/20/GRIBPFDEOD+0048h00m00s.toc",
             },
             "fdb": {
                 "expver": "aad4",
@@ -155,7 +155,7 @@ class UrbanAirData():
         },
         "8.0": {
             "name": "Paris 8.0",
-            "url": "http://exporter.nsc.liu.se/aebc1d3690d441cf82818d9893fa9e57",
+            "url": "http://exporter.nsc.liu.se/51a5347655a04558ab0c44fed100686b",
             "metadata": data_info["Paris_8.0"],
         },
         "9.0": {
