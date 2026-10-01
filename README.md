@@ -167,6 +167,7 @@ above can also be be copy-pasted here.
 
 For Paris we have four examples valid for runs >=v7.1
 
+ - polytope_helper.ipynb: Explore data stored in FDB
  - earthkit_example_paris.ipynb : Downloads from NSC storage
  - earthkit_example_paris_polytope.ipynb: Downloads using polytope or fdb directly on atos
  - paris_time_height_plot.ipynb : Downloads using poltype/fdb and creates a time-heigh plot
@@ -174,7 +175,7 @@ For Paris we have four examples valid for runs >=v7.1
 
 Run with e.g.
 ```
-jupyter notebook ./earthkit_example_paris.ipynb
+jupyter notebook ./polytope_helper.ipynb
 ```
 
 This will open the demo in your browser
