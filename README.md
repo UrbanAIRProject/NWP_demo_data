@@ -187,9 +187,10 @@ stored. Remember to load the latest ecmwf-toolbox before you run
 
 To archive test data under expver=test do
 ```
+module load ecmwf-toolbox
 python3 ./fdb_example.py
 ```
-Before trying to archive under other expver contact the NWP group
+Before trying to archive under other expver contact the NWP group. Note that this has to be done at ECMWF ( atos ). 
 
 
 
