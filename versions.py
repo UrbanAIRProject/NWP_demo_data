@@ -60,10 +60,10 @@ class UrbanAirData():
             "forecast_range": "PT36H",
             "output_frequency": "PT15M",
             "fdb": {
-                "expver": "aagp",
+                "expver": "aags",
                 "georef": "u09tvk",
             },
-            "json": "json/aagp.json",
+            "json": "json/aags.json",
             "polytope": {
                 "collection": "ecmwf-mars",
                 "url": "polytope.ecmwf.int",
