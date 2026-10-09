@@ -123,7 +123,7 @@ def main():
     # Check for the data
     fdb.check_fdb()
     # Clean fdb again, as this is a test
-    #fdb.wipe_fdb()
+    fdb.wipe_fdb()
 
 
 if __name__=='__main__':
