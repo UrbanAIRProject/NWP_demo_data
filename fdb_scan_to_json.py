@@ -22,6 +22,8 @@ Instructions:
 
 
 os.environ["FDB5_HOME"] = os.environ["ECMWF_TOOLBOX_DIR"]
+os.environ["FDB_HOME"] = "/home/fdbtest/"
+USER = os.environ["USER"]
 import pyfdb
 
 def conver_deep(obj):
