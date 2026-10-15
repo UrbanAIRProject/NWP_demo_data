@@ -70,6 +70,25 @@ class UrbanAirData():
                 "ts_present": True,
             },
         },
+        "Paris_9.1": {
+            "desc": "AROME",
+            "nx": 989,
+            "ny": 989,
+            "dx": 500,
+            "date": "2023-08-20T15:00:00Z",
+            "forecast_range": "PT36H",
+            "output_frequency": "PT15M",
+            "fdb": {
+                "expver": "aakl",
+                "georef": "u09tvk",
+            },
+            "json": "json/aakl.json",
+            "polytope": {
+                "collection": "ecmwf-mars",
+                "url": "polytope.ecmwf.int",
+                "ts_present": True,
+            },
+        },
         "Paris_10.0": {
             "desc": "HARMONIE-AROME",
             "nx": 1013,
@@ -83,6 +102,25 @@ class UrbanAirData():
                 "georef": "u09tvk",
             },
             "json": "json/aagw.json",
+            "polytope": {
+                "collection": "ecmwf-mars",
+                "url": "polytope.ecmwf.int",
+                "ts_present": True,
+            },
+        },
+        "Paris_10.1": {
+            "desc": "AROME",
+            "nx": 1013,
+            "ny": 1013,
+            "dx": 200,
+            "date": "2023-08-20T18:00:00Z",
+            "forecast_range": "PT30H",
+            "output_frequency": "PT15M",
+            "fdb": {
+                "expver": "aakm",
+                "georef": "u09tvk",
+            },
+            "json": "json/aakm.json",
             "polytope": {
                 "collection": "ecmwf-mars",
                 "url": "polytope.ecmwf.int",
@@ -163,10 +201,20 @@ class UrbanAirData():
             "url": "polytope.ecmwf.int",
             "metadata": data_info["Paris_9.0"],
         },
+        "9.1": {
+            "name": "Paris 9.1",
+            "url": "polytope.ecmwf.int",
+            "metadata": data_info["Paris_9.1"],
+        },
         "10.0": {
             "name": "Paris 10.0",
             "url": "polytope.ecmwf.int",
             "metadata": data_info["Paris_10.0"],
+        },
+        "10.1": {
+            "name": "Paris 10.1",
+            "url": "polytope.ecmwf.int",
+            "metadata": data_info["Paris_10.1"],
         },
 
         "11.0": {
