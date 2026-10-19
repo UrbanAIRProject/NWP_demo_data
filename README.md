@@ -183,3 +183,15 @@ This will open the demo in your browser
 ## Create toc from fdb
 Run fdb.scan.py with correct expver to create a json with all parameters
 stored. Remember to load the latest ecmwf-toolbox before you run
+
+## Archive example
+
+To archive test data under expver=test do
+```
+module load ecmwf-toolbox
+python3 ./fdb_example.py
+```
+Before trying to archive under other expver contact the NWP group. Note that this has to be done at ECMWF ( atos ). 
+
+
+
