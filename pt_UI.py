@@ -17,7 +17,7 @@ available_para = list(para_codes.keys())
 file_options = [x for x,values in uad.items() if 'json' in values['metadata']]# and values['metadata']['polytope']['ts_present']]
 
 # -- helper for level type
-lt_dict = dict(sfc='surface', pl='pressure level', hl='height level', ml='model level')
+lt_dict = dict(sfc='surface', pl='pressure level', hl='height level', ml='model level', sol='soil level')
 
 # -- empty request and file metadata
 file_meta = dict(json_file = '', expver = '', collection = '', georef='',
