@@ -75,6 +75,33 @@ def sort_time_and_levels(data):
 
 
 
+def write_to_screen(final_data, request):
+    print("\n\nListing", request["expver"])
+    print(" request", request)
+    file = 'json/para_codes.json'
+    with open(file, mode='r') as file:
+        param_mapping = json.load(file)
+    for levtype, body in final_data.items():
+        params = []
+        print("\nlevtype:",levtype)
+        for param_type, b2 in body.items():
+          if isinstance(b2, dict):
+             for k, v in b2.items():
+               params.extend(v.keys())
+          else:
+             levels=b2
+        names = {}
+        for x in params:
+            if x in param_mapping:
+             param_mapping[x].update({"param":x})
+             names[x]= param_mapping[x]
+            else:
+             names[x]={"param":x}
+        for n in names.values():
+           print("  ", n)
+        if levels:
+          print("   levels:",levels)
+
 def write_to_json(final_data, request):
     file = 'json/' + request['expver'] + '.json'
     print('Writing to', file)
@@ -159,7 +186,7 @@ def scan_fdb(request, paratype):
     return data_tree #conver_deep(data_tree)
 
 
-def compose_request(uad):
+def compose_request(uad,step=None):
 
     request= {
         "class": "d1",
@@ -170,13 +197,19 @@ def compose_request(uad):
         "georef": uad["metadata"]["fdb"]["georef"],
 
     }
+    if step:
+        request["step"] = [f"0-{step}", step]
+
+    print(request)
     return request
 
 # ------------- MAIN LOOP ----------------------------------
 
 def main():
     parser = argparse.ArgumentParser(description="Process a URL, scan fdb to json.")
+    parser.add_argument("-v", "--version", help="Specify version to process", default=None)
     parser.add_argument("-u", "--url", help="Specify a URL to process", default=None)
+    parser.add_argument("-s", "--step", dest="step", help="Print a specific step on screen", default=None)
     args = parser.parse_args()
 
     if args.url:
@@ -196,18 +229,26 @@ def main():
 
         return
 
-    for url in UrbanAirData().urls:
-        uad = UrbanAirData().urls[url]
-        print('Scanning version',url,':', uad['name'])
+    if args.version:
+      uads = {args.version:UrbanAirData().urls[args.version]}
+
+    else:
+      uads = {v:UrbanAirData().urls[v] for v in UrbanAirData().urls}
+
+    for version, uad in uads.items():
+        print('Scanning version',version,':', uad['name'])
         try:
-            request = compose_request(uad)
-            ts_shown = UrbanAirData().urls[url]['metadata']['polytope']['ts_present']
+            request = compose_request(uad, args.step)
+            ts_shown = UrbanAirData().urls[version]['metadata']['polytope']['ts_present']
             paratype_uad = scan_param_types(request, ts_shown)
             print('Creating json')
             final_data = scan_fdb(request, paratype_uad)
             final_data = conver_deep(final_data)
             sort_time_and_levels(final_data)
-            write_to_json({'level_type':final_data},request)
+            if args.step:
+                write_to_screen(final_data,request)
+            else:
+              write_to_json({'level_type':final_data},request)
         except Exception as e:
             print('Skipped, caught following exception:\n', e)
 

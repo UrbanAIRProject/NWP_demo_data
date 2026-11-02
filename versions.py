@@ -70,6 +70,25 @@ class UrbanAirData():
                 "ts_present": True,
             },
         },
+        "Paris_9.2": {
+            "desc": "HARMONIE-AROME",
+            "nx": 989,
+            "ny": 989,
+            "dx": 500,
+            "date": "2023-08-20T15:00:00Z",
+            "forecast_range": "PT36H",
+            "output_frequency": "PT15M",
+            "fdb": {
+                "expver": "ulfs",
+                "georef": "u09tvk",
+            },
+            "json": "json/ulfs.json",
+            "polytope": {
+                "collection": "ecmwf-mars",
+                "url": "polytope.ecmwf.int",
+                "ts_present": True,
+            },
+        },
         "Paris_9.1": {
             "desc": "AROME",
             "nx": 989,
@@ -205,6 +224,11 @@ class UrbanAirData():
             "name": "Paris 9.1",
             "url": "polytope.ecmwf.int",
             "metadata": data_info["Paris_9.1"],
+        },
+        "9.2": {
+            "name": "Paris 9.2",
+            "url": "polytope.ecmwf.int",
+            "metadata": data_info["Paris_9.2"],
         },
         "10.0": {
             "name": "Paris 10.0",
