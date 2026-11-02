@@ -4,6 +4,7 @@
 import os
 import sys
 from collections import defaultdict
+import earthkit.data as ekd
 import json
 import argparse
 from versions import UrbanAirData
@@ -161,6 +162,11 @@ def scan_fdb(request, paratype):
         paratype: (dict) dict containing paramter type (inst, cumul, other) or each parameter number
     '''
 
+    file = 'json/para_codes.json'
+    with open(file, mode='r') as file:
+        param_mapping = json.load(file)
+    param_changed = False
+
     # -- nested json structure
     data_tree = defaultdict(lambda: {'para_type':
         {'inst': defaultdict(lambda: defaultdict(set)),
@@ -175,6 +181,11 @@ def scan_fdb(request, paratype):
         level = keys.get('levelist')
         param = keys.get('param')
         step = keys.get('step')
+        if param not in param_mapping:
+         ds = ekd.from_source("fdb", request=keys).to_fieldlist()[0]
+         name, units, shortname = ds.metadata("name", "units", "shortName")
+         param_mapping[param] = { "name": name, "units": units, "shortName": shortname}
+         param_changed = True
 
         paratype_loc = paratype[param]['type']
         ts_now = paratype[param]['ts']
@@ -182,6 +193,10 @@ def scan_fdb(request, paratype):
         data_tree[levtype]['para_type'][paratype_loc][param]['time_steps'].add(step)
         data_tree[levtype]['para_type'][paratype_loc][param]['time_span'].add(ts_now)
         data_tree[levtype]['levels'].add(level)
+
+    if param_changed:
+      with open('json/para_codes.json', 'w') as f:
+        json.dump(param_mapping, f)
 
     return data_tree #conver_deep(data_tree)
 
