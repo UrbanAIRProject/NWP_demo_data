@@ -2,14 +2,23 @@
     "data_info": {
         "Barcelona": {
             "13.0": {
-	        "xlatcen": 41.39,
+                "desc": "HARMONIE-AROME",
+                "modelName": "HARMONIE-AROME",
+                "dx": 500.0,
+                "DxInMetres": 500.0,
+                "DyInMetres": 500.0,
+                "nx": 989,
+                "ny": 989,
+                "Nx": 989,
+                "Ny": 989,
+                "xlatcen": 41.39,
                 "xloncen": 2.16,
                 "date": "2025-01-13T12:00:00Z",
                 "forecast_range": "PT36H",
                 "output_frequency": "PT15M",
                 "fdb": {
-		     "expver": "aal3",
-                     "georef": "sp3e3n"
+                    "expver": "aal3",
+                    "georef": "sp3e3n"
                 },
                 "json": "json/aal3.json",
                 "polytope": {
@@ -161,9 +170,13 @@
                 }
             },
             "9.2": {
+                "desc": "HARMONIE-AROME",
                 "modelName": "HARMONIE-AROME",
+                "dx": 500.0,
                 "DxInMetres": 500.0,
                 "DyInMetres": 500.0,
+                "nx": 989,
+                "ny": 989,
                 "Nx": 989,
                 "Ny": 989,
                 "date": "2023-08-20T15:00:00Z",

@@ -129,7 +129,7 @@ def update_file(*args):
     file_meta['desc'] =  uad[version]["metadata"]["desc"]
     file_meta['range'] =  uad[version]["metadata"]["forecast_range"].strip('PT')
     file_meta['nx'] =  uad[version]["metadata"]["nx"]
-    file_meta['ny'] =  uad[version]["metadata"]["nx"]
+    file_meta['ny'] =  uad[version]["metadata"]["ny"]
     file_meta['dx'] =  uad[version]["metadata"]["dx"]
 
     file_meta['date'] = dt.strftime("%Y%m%d")
