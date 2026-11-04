@@ -23,6 +23,16 @@ micromamba activate urbanair_demo
 python3 -m ipykernel install --user --name=urbanair_demo
 ```
 
+## Install with uv at ECMWF
+
+```
+module load python3/3.13.16-01
+uv sync
+```
+Activate by
+```
+source .venv/bin/activate
+```
 
 ### List info about the latest version
 ```
