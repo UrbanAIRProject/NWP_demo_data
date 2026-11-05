@@ -206,7 +206,7 @@
                 }
             },
             "9.4": {
-                "modelName": "HARMONIE-AROME",
+                "modelName": "AROME",
                 "DxInMetres": 500.0,
                 "DyInMetres": 500.0,
                 "Nx": 989,
@@ -218,7 +218,7 @@
                     "expver": "aal2",
                     "georef": "u09tvk"
                 },
-                "json": "json/aal1.json",
+                "json": "json/aal2.json",
                 "polytope": {
                     "collection": "ecmwf-mars",
                     "url": "polytope.ecmwf.int",
