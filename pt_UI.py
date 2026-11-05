@@ -126,11 +126,11 @@ def update_file(*args):
     file_meta['address'] = uad[version]["metadata"]["polytope"]["url"]
     file_meta['ts_present'] =  uad[version]["metadata"]["polytope"]["ts_present"]
 
-    file_meta['desc'] =  uad[version]["metadata"]["desc"]
+    file_meta['modelName'] =  uad[version]["metadata"]["modelName"]
     file_meta['range'] =  uad[version]["metadata"]["forecast_range"].strip('PT')
-    file_meta['nx'] =  uad[version]["metadata"]["nx"]
-    file_meta['ny'] =  uad[version]["metadata"]["ny"]
-    file_meta['dx'] =  uad[version]["metadata"]["dx"]
+    file_meta['Nx'] =  uad[version]["metadata"]["Nx"]
+    file_meta['Ny'] =  uad[version]["metadata"]["Ny"]
+    file_meta['DxInMetres'] =  uad[version]["metadata"]["DxInMetres"]
 
     file_meta['date'] = dt.strftime("%Y%m%d")
     file_meta['time'] =  dt.strftime("%H%M")
@@ -141,13 +141,13 @@ def update_file(*args):
         print(f"Archive name: {uad[version]['name']}")
         print('expver :', file_meta['expver'])
         print('collection:', file_meta['collection'])
-        print('description:', file_meta['desc'])
+        print('modelName:', file_meta['modelName'])
         print('date:', file_meta['date'])
         print('time:', file_meta['time'])
         print('range:', file_meta['range'])
-        print('nx:', file_meta['nx'])
-        print('ny:', file_meta['ny'])
-        print('dx:', file_meta['dx'])
+        print('Nx:', file_meta['Nx'])
+        print('Ny:', file_meta['Ny'])
+        print('DxInMetres:', file_meta['DxInMetres'])
 
 
     with open(json_file) as f:

@@ -2,13 +2,9 @@
     "data_info": {
         "Barcelona": {
             "13.0": {
-                "desc": "HARMONIE-AROME",
                 "modelName": "HARMONIE-AROME",
-                "dx": 500.0,
                 "DxInMetres": 500.0,
                 "DyInMetres": 500.0,
-                "nx": 989,
-                "ny": 989,
                 "Nx": 989,
                 "Ny": 989,
                 "xlatcen": 41.39,
@@ -30,20 +26,20 @@
         },
         "Antwerpen": {
             "4": {
-                "nx": 139,
-                "ny": 139,
-                "dx": 500
+                "Nx": 139,
+                "Ny": 139,
+                "DxInMetres": 500
             },
             "5.0": {
-                "nx": 139,
-                "ny": 139,
-                "dx": 500
+                "Nx": 139,
+                "Ny": 139,
+                "DxInMetres": 500
             },
             "11.0": {
-                "desc": "HARMONIE-AROME",
-                "nx": 989,
-                "ny": 989,
-                "dx": 500,
+                "modelName": "HARMONIE-AROME",
+                "Nx": 989,
+                "Ny": 989,
+                "DxInMetres": 500,
                 "xlatcen": 51.21,
                 "xloncen": 4.42,
                 "date": "2025-06-28T18:00:00Z",
@@ -61,10 +57,10 @@
                 }
             },
             "12.0": {
-                "desc": "HARMONIE-AROME",
-                "nx": 1013,
-                "ny": 1013,
-                "dx": 200,
+                "modelName": "HARMONIE-AROME",
+                "Nx": 1013,
+                "Ny": 1013,
+                "DxInMetres": 200,
                 "xlatcen": 51.21,
                 "xloncen": 4.42,
                 "date": "2025-06-28T21:00:00Z",
@@ -84,15 +80,15 @@
         },
         "Paris": {
             "6.1": {
-                "nx": 989,
-                "ny": 989,
-                "dx": 500
+                "Nx": 989,
+                "Ny": 989,
+                "DxInMetres": 500
             },
             "7.1": {
-                "desc": "HARMONIE-AROME",
-                "nx": 989,
-                "ny": 989,
-                "dx": 500,
+                "modelName": "HARMONIE-AROME",
+                "Nx": 989,
+                "Ny": 989,
+                "DxInMetres": 500,
                 "date": "2023-08-20T00:00:00Z",
                 "forecast_range": "PT36H",
                 "output_frequency": "PT15M",
@@ -108,10 +104,10 @@
                 }
             },
             "8.0": {
-                "desc": "HARMONIE-AROME",
-                "nx": 989,
-                "ny": 989,
-                "dx": 500,
+                "modelName": "HARMONIE-AROME",
+                "Nx": 989,
+                "Ny": 989,
+                "DxInMetres": 500,
                 "date": "2023-08-20T00:00:00Z",
                 "forecast_range": "PT48H",
                 "output_frequency": "PT15M",
@@ -132,10 +128,10 @@
                 }
             },
             "9.0": {
-                "desc": "HARMONIE-AROME",
-                "nx": 989,
-                "ny": 989,
-                "dx": 500,
+                "modelName": "HARMONIE-AROME",
+                "Nx": 989,
+                "Ny": 989,
+                "DxInMetres": 500,
                 "date": "2023-08-20T15:00:00Z",
                 "forecast_range": "PT36H",
                 "output_frequency": "PT15M",
@@ -151,10 +147,10 @@
                 }
             },
             "9.1": {
-                "desc": "AROME",
-                "nx": 989,
-                "ny": 989,
-                "dx": 500,
+                "modelName": "AROME",
+                "Nx": 989,
+                "Ny": 989,
+                "DxInMetres": 500,
                 "date": "2023-08-20T15:00:00Z",
                 "forecast_range": "PT36H",
                 "output_frequency": "PT15M",
@@ -170,13 +166,9 @@
                 }
             },
             "9.2": {
-                "desc": "HARMONIE-AROME",
                 "modelName": "HARMONIE-AROME",
-                "dx": 500.0,
                 "DxInMetres": 500.0,
                 "DyInMetres": 500.0,
-                "nx": 989,
-                "ny": 989,
                 "Nx": 989,
                 "Ny": 989,
                 "date": "2023-08-20T15:00:00Z",
@@ -194,10 +186,10 @@
                 }
             },
             "10.0": {
-                "desc": "HARMONIE-AROME",
-                "nx": 1013,
-                "ny": 1013,
-                "dx": 200,
+                "modelName": "HARMONIE-AROME",
+                "Nx": 1013,
+                "Ny": 1013,
+                "DxInMetres": 200,
                 "date": "2023-08-20T18:00:00Z",
                 "forecast_range": "PT30H",
                 "output_frequency": "PT15M",
@@ -213,10 +205,10 @@
                 }
             },
             "10.1": {
-                "desc": "AROME",
-                "nx": 1013,
-                "ny": 1013,
-                "dx": 200,
+                "modelName": "AROME",
+                "Nx": 1013,
+                "Ny": 1013,
+                "DxInMetres": 200,
                 "date": "2023-08-20T18:00:00Z",
                 "forecast_range": "PT30H",
                 "output_frequency": "PT15M",
