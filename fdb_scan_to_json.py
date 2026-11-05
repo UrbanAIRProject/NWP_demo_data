@@ -109,7 +109,7 @@ def write_to_json(final_data, request):
     file = "json/" + request["expver"] + ".json"
     print("Writing to", file)
     with open(file, mode="w") as file:
-        json.dump(final_data, file)
+        json.dump(final_data, file, indent=True)
 
 
 def scan_param_types(request, ts_shown: bool) -> dict:
@@ -232,11 +232,11 @@ def scan_fdb(request, paratype):
 
     if param_changed:
         with open("json/para_codes.json", "w") as f:
-            json.dump(param_mapping, f)
+            json.dump(param_mapping, f, indent=True)
 
     if erroneous is not None:
         with open("json/erroneous_metadata.json", "w") as f:
-            json.dump(erroneous, f)
+            json.dump(erroneous, f, indent=True)
 
     return data_tree, meta_data  # conver_deep(data_tree)
 
