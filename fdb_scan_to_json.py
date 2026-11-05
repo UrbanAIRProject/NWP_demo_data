@@ -185,18 +185,20 @@ def scan_fdb(request, paratype):
     )
 
     metalist = [
-            "name",
-            "units",
-            "shortName",
-            "DxInMetres",
-            "DyInMetres",
-            "Nx",
-            "Ny",
-            "modelName",
-        ]
-
+        "name",
+        "units",
+        "shortName",
+        "typeOfLevel",
+        "level",
+        "DxInMetres",
+        "DyInMetres",
+        "Nx",
+        "Ny",
+        "modelName",
+    ]
 
     meta_data = None
+    erroneous = []
     fdb = pyfdb.FDB()
     for x in fdb.list(request):
         keys = x.combined_key()
@@ -209,9 +211,16 @@ def scan_fdb(request, paratype):
             ds = ekd.from_source("fdb", request=keys).to_fieldlist()
             metadata = dict(zip(metalist, ds.metadata(metalist)[0]))
             if meta_data is None and "AROME" in metadata["modelName"]:
-              meta_data = { x:metadata[x] for x in ["modelName", "DxInMetres","DyInMetres","Nx", "Ny" ]}
+                meta_data = {
+                    x: metadata[x]
+                    for x in ["modelName", "DxInMetres", "DyInMetres", "Nx", "Ny"]
+                }
+            elif "AROME" not in metadata["modelName"]:
+                erroneous.append(metadata)
         if param not in param_mapping:
-            param_mapping[param] =  { x:metadata[x] for x in ["name","units","shortName"]}
+            param_mapping[param] = {
+                x: metadata[x] for x in ["name", "units", "shortName"]
+            }
             param_changed = True
 
         paratype_loc = paratype[param]["type"]
@@ -224,6 +233,10 @@ def scan_fdb(request, paratype):
     if param_changed:
         with open("json/para_codes.json", "w") as f:
             json.dump(param_mapping, f)
+
+    if erroneous is not None:
+        with open("json/erroneous_metadata.json", "w") as f:
+            json.dump(erroneous, f)
 
     return data_tree, meta_data  # conver_deep(data_tree)
 
@@ -302,7 +315,9 @@ def main():
             if args.step:
                 write_to_screen(final_data, meta_data, request)
             else:
-                write_to_json({"meta_data": meta_data, "level_type": final_data}, request)
+                write_to_json(
+                    {"meta_data": meta_data, "level_type": final_data}, request
+                )
         except Exception as e:
             print("Skipped, caught following exception:\n", e)
 

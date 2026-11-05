@@ -185,6 +185,41 @@
                     "ts_present": true
                 }
             },
+            "9.3": {
+                "date": "2023-08-20T15:00:00Z",
+                "forecast_range": "PT33H",
+                "output_frequency": "PT15M",
+                "fdb": {
+                    "expver": "aal1",
+                    "georef": "u09tvk"
+                },
+                "json": "json/aal1.json",
+                "polytope": {
+                    "collection": "ecmwf-mars",
+                    "url": "polytope.ecmwf.int",
+                    "ts_present": true
+                }
+            },
+            "9.4": {
+                "modelName": "HARMONIE-AROME",
+                "DxInMetres": 500.0,
+                "DyInMetres": 500.0,
+                "Nx": 989,
+                "Ny": 989,
+                "date": "2023-08-20T15:00:00Z",
+                "forecast_range": "PT33H",
+                "output_frequency": "PT15M",
+                "fdb": {
+                    "expver": "aal2",
+                    "georef": "u09tvk"
+                },
+                "json": "json/aal1.json",
+                "polytope": {
+                    "collection": "ecmwf-mars",
+                    "url": "polytope.ecmwf.int",
+                    "ts_present": true
+                }
+            },
             "10.0": {
                 "modelName": "HARMONIE-AROME",
                 "Nx": 1013,
@@ -263,6 +298,16 @@
         },
         "9.2": {
             "name": "Paris 9.2",
+            "url": "polytope.ecmwf.int",
+            "city": "Paris"
+        },
+        "9.3": {
+            "name": "Paris 9.3",
+            "url": "polytope.ecmwf.int",
+            "city": "Paris"
+        },
+        "9.4": {
+            "name": "Paris 9.4",
             "url": "polytope.ecmwf.int",
             "city": "Paris"
         },
