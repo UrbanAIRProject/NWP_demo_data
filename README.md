@@ -11,22 +11,29 @@ The two latter enables field extractions whereas the first works with files.
 
 ## Install
 
-To install the demo e.g. locally do, in this case with micromamba, and preferred python version
+To install activate the demo e.g. locally do, here with uv
 
 ```
-python_version=3.10
-micromamba create -n urbanair_demo python=3.10
-micromamba env update -n urbanair_demo -f environment.yml
-micromamba activate urbanair_demo
-
-# Create a kernel for jupyer notebook
-python3 -m ipykernel install --user --name=urbanair_demo
+uv sync
+source .venv/bin/activate
+python3 -m ipykernel install --user --name=urbanair-nwp
 ```
 
+## Install with uv at ECMWF
 
-### List info about the latest version
 ```
-python3 ./versions.py
+module load uv
+module load python3/3.13.16-01
+uv sync
+```
+Activate by
+```
+source .venv/bin/activate
+```
+
+### List info about the different versions
+```
+python3 ./versions.py  -l
 ```
 
 ## Download method 1: urls
