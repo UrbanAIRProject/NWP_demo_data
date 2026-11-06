@@ -69,11 +69,12 @@ class UrbanAirData():
             if not rows:
                 continue
             print(f"{city}:")
-            print(f"  {'version':<8} {'expver':<8} {'modelName':<16} {'url'}")
+            print(f"  {'version':<8} {'expver':<8} {'modelName':<16} {'DxInMetres'}")
             for v, info in rows:
                 expver = info["metadata"].get("fdb", {}).get("expver", "-")
                 model = info["metadata"].get("modelName", "-")
-                print(f"  {v:<8} {expver:<8} {model:<16} {info['url']}")
+                dx = info["metadata"].get("DxInMetres", "-")
+                print(f"  {v:<8} {expver:<8} {model:<16} {dx}")
             print()
 
     def update_data_info(self, version, keys):
