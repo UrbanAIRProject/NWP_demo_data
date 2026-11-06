@@ -288,7 +288,7 @@ def main():
             final_data, meta_data = scan_fdb(request, paratype_uad)
             final_data = conver_deep(final_data)
             sort_time_and_levels(final_data)
-            write_to_json({"level_type": final_data}, request)
+            write_to_json({"meta_data": meta_data, "level_type": final_data}, request)
         except Exception as e:
             print("Skipped, caught following exception:\n", e)
 

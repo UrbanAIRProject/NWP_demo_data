@@ -22,6 +22,7 @@ python3 -m ipykernel install --user --name=urbanair-nwp
 ## Install with uv at ECMWF
 
 ```
+module load uv
 module load python3/3.13.16-01
 uv sync
 ```
