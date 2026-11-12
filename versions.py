@@ -1,257 +1,31 @@
 # UrbanAir data versions
 from dataclasses import dataclass
+import argparse
 import json
+import os
+import sys
+
+
+VERSIONS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "json", "versions.json")
+
+
+def load_versions(path=VERSIONS_FILE):
+    with open(path, "r", encoding="utf-8") as f:
+        content = json.load(f)
+    data_info = content["data_info"]
+    urls = {}
+    for version, info in content["urls"].items():
+        city = info.pop("city")
+        if version not in data_info.get(city, {}):
+            raise KeyError(f'{version} is not in data_info["{city}"] of {path}')
+        info["metadata"] = data_info[city][version]
+        urls[version] = info
+    return data_info, urls
 
 
 @dataclass
 class UrbanAirData():
-    data_info = {
-        "Antwerpen": {"nx": 139, "ny": 139, "dx": 500},
-        "Paris": {"nx": 989, "ny": 989, "dx": 500},
-        "Paris_7.1": {
-            "desc": "HARMONIE-AROME",
-            "nx": 989,
-            "ny": 989,
-            "dx": 500,
-            "date": "2023-08-20T00:00:00Z",
-            "forecast_range": "PT36H",
-            "output_frequency": "PT15M",
-            "fdb": {
-                "expver": "aabg",
-                "georef": "u09tvk",
-            },
-            "json": "json/aabg.json",
-            "polytope": {
-                "collection": "ecmwf-mars",
-                "url": "polytope.ecmwf.int",
-                "ts_present": False,
-            },
-        },
-        "Paris_8.0": {
-            "desc": "HARMONIE-AROME",
-            "nx": 989,
-            "ny": 989,
-            "dx": 500,
-            "date": "2023-08-20T00:00:00Z",
-            "forecast_range": "PT48H",
-            "output_frequency": "PT15M",
-            "toc": {
-                "climate_fields": "http://exporter.nsc.liu.se/51a5347655a04558ab0c44fed100686b/Const.Clim.grib2.toc",
-                "surface_fields": "http://exporter.nsc.liu.se/51a5347655a04558ab0c44fed100686b/2023/08/20/GRIBTILEDEOD+0048h00m00s.sfx.toc",
-                "atmospheric_fields": "http://exporter.nsc.liu.se/51a5347655a04558ab0c44fed100686b/2023/08/20/GRIBPFDEOD+0048h00m00s.toc",
-            },
-            "fdb": {
-                "expver": "aad4",
-                "georef": "u09tvk",
-            },
-            "json": "json/aad4.json",
-            "polytope": {
-                "collection": "ecmwf-mars",
-                "url": "polytope.ecmwf.int",
-                "ts_present": False,
-            },
-        },
-        "Paris_9.0": {
-            "desc": "HARMONIE-AROME",
-            "nx": 989,
-            "ny": 989,
-            "dx": 500,
-            "date": "2023-08-20T15:00:00Z",
-            "forecast_range": "PT36H",
-            "output_frequency": "PT15M",
-            "fdb": {
-                "expver": "aags",
-                "georef": "u09tvk",
-            },
-            "json": "json/aags.json",
-            "polytope": {
-                "collection": "ecmwf-mars",
-                "url": "polytope.ecmwf.int",
-                "ts_present": True,
-            },
-        },
-        "Paris_9.2": {
-            "desc": "HARMONIE-AROME",
-            "nx": 989,
-            "ny": 989,
-            "dx": 500,
-            "date": "2023-08-20T15:00:00Z",
-            "forecast_range": "PT36H",
-            "output_frequency": "PT15M",
-            "fdb": {
-                "expver": "ulfs",
-                "georef": "u09tvk",
-            },
-            "json": "json/ulfs.json",
-            "polytope": {
-                "collection": "ecmwf-mars",
-                "url": "polytope.ecmwf.int",
-                "ts_present": True,
-            },
-        },
-        "Paris_9.1": {
-            "desc": "AROME",
-            "nx": 989,
-            "ny": 989,
-            "dx": 500,
-            "date": "2023-08-20T15:00:00Z",
-            "forecast_range": "PT36H",
-            "output_frequency": "PT15M",
-            "fdb": {
-                "expver": "aakl",
-                "georef": "u09tvk",
-            },
-            "json": "json/aakl.json",
-            "polytope": {
-                "collection": "ecmwf-mars",
-                "url": "polytope.ecmwf.int",
-                "ts_present": True,
-            },
-        },
-        "Paris_10.0": {
-            "desc": "HARMONIE-AROME",
-            "nx": 1013,
-            "ny": 1013,
-            "dx": 200,
-            "date": "2023-08-20T18:00:00Z",
-            "forecast_range": "PT30H",
-            "output_frequency": "PT15M",
-            "fdb": {
-                "expver": "aagw",
-                "georef": "u09tvk",
-            },
-            "json": "json/aagw.json",
-            "polytope": {
-                "collection": "ecmwf-mars",
-                "url": "polytope.ecmwf.int",
-                "ts_present": True,
-            },
-        },
-        "Paris_10.1": {
-            "desc": "AROME",
-            "nx": 1013,
-            "ny": 1013,
-            "dx": 200,
-            "date": "2023-08-20T18:00:00Z",
-            "forecast_range": "PT30H",
-            "output_frequency": "PT15M",
-            "fdb": {
-                "expver": "aakm",
-                "georef": "u09tvk",
-            },
-            "json": "json/aakm.json",
-            "polytope": {
-                "collection": "ecmwf-mars",
-                "url": "polytope.ecmwf.int",
-                "ts_present": True,
-            },
-        },
-        "Antwerp_2.0": {
-            "desc": "HARMONIE-AROME",
-            "nx": 989,
-            "ny": 989,
-            "dx": 500,
-           "xlatcen" : 51.21,
-           "xloncen" : 4.42,
-            "date": "2025-06-28T18:00:00Z",
-            "forecast_range": "PT36H",
-            "output_frequency": "PT15M",
-            "fdb": {
-                "expver": "aah0",
-                "georef": "u155kd",
-            },
-            "json": "json/aah0.json",
-            "polytope": {
-                "collection": "ecmwf-mars",
-                "url": "polytope.ecmwf.int",
-                "ts_present": True,
-            },
-        },
-        "Antwerp_3.0": {
-            "desc": "HARMONIE-AROME",
-            "nx": 1013,
-            "ny": 1013,
-            "dx": 200,
-           "xlatcen" : 51.21,
-           "xloncen" : 4.42,
-            "date": "2025-06-28T21:00:00Z",
-            "forecast_range": "PT33H",
-            "output_frequency": "PT15M",
-            "fdb": {
-                "expver": "aah1",
-                "georef": "u155kd",
-            },
-            "json": "json/aah1.json",
-            "polytope": {
-                "collection": "ecmwf-mars",
-                "url": "polytope.ecmwf.int",
-                "ts_present": True,
-            },
-        },
-    }
-    urls = {
-        "4": {
-            "name": "Antwerpen test",
-            "url": "http://exporter.nsc.liu.se/28e80f79cad547988e7a0b64809e0dc3",
-            "metadata": data_info["Antwerpen"],
-        },
-        "5.0": {
-            "name": "Antwerpen",
-            "url": "http://exporter.nsc.liu.se/1c333ab5ee374ab2acb470b2870cc02e",
-            "metadata": data_info["Antwerpen"],
-        },
-        "6.1": {
-            "name": "Paris",
-            "url": "http://exporter.nsc.liu.se/284818358def438b8c142f4223c96936",
-            "metadata": data_info["Paris"],
-        },
-        "7.1": {
-            "name": "Paris 7.1",
-            "url": "http://exporter.nsc.liu.se/f1559d3fb24e47b5b9b3f77905a8bcba",
-            "metadata": data_info["Paris_7.1"],
-        },
-        "8.0": {
-            "name": "Paris 8.0",
-            "url": "http://exporter.nsc.liu.se/51a5347655a04558ab0c44fed100686b",
-            "metadata": data_info["Paris_8.0"],
-        },
-        "9.0": {
-            "name": "Paris 9.0",
-            "url": "polytope.ecmwf.int",
-            "metadata": data_info["Paris_9.0"],
-        },
-        "9.1": {
-            "name": "Paris 9.1",
-            "url": "polytope.ecmwf.int",
-            "metadata": data_info["Paris_9.1"],
-        },
-        "9.2": {
-            "name": "Paris 9.2",
-            "url": "polytope.ecmwf.int",
-            "metadata": data_info["Paris_9.2"],
-        },
-        "10.0": {
-            "name": "Paris 10.0",
-            "url": "polytope.ecmwf.int",
-            "metadata": data_info["Paris_10.0"],
-        },
-        "10.1": {
-            "name": "Paris 10.1",
-            "url": "polytope.ecmwf.int",
-            "metadata": data_info["Paris_10.1"],
-        },
-
-        "11.0": {
-            "name": "Antwerp 2.0",
-            "url": "polytope.ecmwf.int",
-            "metadata": data_info["Antwerp_2.0"],
-        },
-        "12.0": {
-            "name": "Antwerp 3.0",
-            "url": "polytope.ecmwf.int",
-            "metadata": data_info["Antwerp_3.0"],
-        },
-    }
+    data_info, urls = load_versions()
     current_version = list(urls)[-1]
     base_url = urls[current_version]["url"]
 
@@ -276,20 +50,87 @@ class UrbanAirData():
 
         return txt
 
-    def show(self, version=None):
-        import pydoc
+    def expver(self, version=None):
+        if version is None:
+            version = self.current_version
+        return self.urls[version]["metadata"].get("fdb", {}).get("expver")
+
+    def list_versions(self, version=None):
+        print(f"Current version: {self.current_version}\n")
+        if version is not None and str(version) not in self.urls:
+            print(f"KeyError: {version} is not listed")
+            version = None
+        for city, versions in self.data_info.items():
+            rows = [
+                (v, self.urls[v])
+                for v in versions
+                if v in self.urls and (version is None or v == str(version))
+            ]
+            if not rows:
+                continue
+            print(f"{city}:")
+            print(f"  {'version':<8} {'expver':<8} {'modelName':<16} {'DxInMetres'}")
+            for v, info in rows:
+                expver = info["metadata"].get("fdb", {}).get("expver", "-")
+                model = info["metadata"].get("modelName", "-")
+                dx = info["metadata"].get("DxInMetres", "-")
+                print(f"  {v:<8} {expver:<8} {model:<16} {dx}")
+            print()
+
+    def update_data_info(self, version, keys):
+        city = next((c for c, v in self.data_info.items() if version in v), None)
+        if city is None:
+            return
+        meta = self.data_info[city][version]
+        new = {**keys, **meta}
+        if new == meta and list(new) == list(meta):
+            return
+        meta.clear()
+        meta.update(new)
+        with open(VERSIONS_FILE, "r", encoding="utf-8") as f:
+            content = json.load(f)
+        content["data_info"][city][version] = {**keys, **content["data_info"][city][version]}
+        with open(VERSIONS_FILE, "w", encoding="utf-8") as f:
+            json.dump(content, f, indent=4)
+            f.write("\n")
+
+    def show(self, version=None, full=False):
         if version is None:
             version = self.current_version
 
+        if version not in self.urls:
+            print(f"KeyError: {version} is not listed")
+            self.list_versions()
+            return
+
+        json_file = self.urls[version]["metadata"].get("json")
+        toc = None
+        if json_file is not None:
+            path = json_file if os.path.exists(json_file) else os.path.join(os.path.dirname(VERSIONS_FILE), os.path.basename(json_file))
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    toc = json.load(f)
+                meta_data = toc.get("meta_data", {})
+                if meta_data:
+                    self.update_data_info(version, meta_data)
+
         txt = self.dict_print(self.urls[version], 1, prefix="\n")
-        json_file = self.urls[version]["metadata"]["json"]
-        with open(json_file, "r", encoding="utf-8") as f:
-            toc = json.load(f)
+        print(txt)
+
+        if not full:
+            return
+
+        import pydoc
+        if json_file is None:
+            print(f"No json content available for version {version}")
+            return
+        if toc is None:
+            print(f"json file not found: {json_file}")
+            return
 
         title = f'\t\t ---- Data available from polytope ( from {json_file} ) --- \n'
         formatted_json = title + json.dumps(toc, indent=4)
         pydoc.pager(formatted_json)
-
 
 
     def url_version(self, version=None):
@@ -320,5 +161,43 @@ class UrbanAirData():
 
 if __name__ == "__main__":
 
+    parser = argparse.ArgumentParser(description="Inspect the UrbanAir data versions")
+    parser.add_argument(
+        "-l",
+        "--list",
+        dest="list",
+        action="store_true",
+        help="List the available versions",
+        required=False,
+        default=False,
+    )
+    parser.add_argument(
+        "-v",
+        "--version",
+        dest="version",
+        help="Print the header information of a specific version",
+        required=False,
+        default=None,
+    )
+    parser.add_argument(
+        "-f",
+        "--full",
+        dest="full",
+        metavar="VERSION",
+        help="Print the full information of a specific version, including the json content",
+        required=False,
+        default=None,
+    )
+
+    args = parser.parse_args()
+
     uad = UrbanAirData()
-    uad.show()
+    if args.list:
+        uad.list_versions(args.version)
+        sys.exit()
+
+    if args.full is not None:
+        uad.show(args.full, full=True)
+        sys.exit()
+
+    uad.show(args.version)

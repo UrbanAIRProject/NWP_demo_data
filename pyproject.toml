@@ -1,0 +1,32 @@
+# pyproject.toml
+[project]
+name = "UrbanAIR_NWP"
+version = "0.1.0"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    "black",
+    "pyfdb >=5.25.0",
+    "earthkit-data >=1.2.5",
+    "jupyter",
+    "ipykernel",
+    "bottleneck",
+    "bs4",
+    "notebook",
+    "wget",
+    "ipyfilechooser",
+    "earthkit",
+    "earthkit-plots",
+    "earthkit-geo",
+    "polytope-client",
+    "pygrok",
+]
+
+[dependency-groups]
+dev = ["pytest>=8"]         # like a separate, optional list
+
+[tool.uv]
+package = false             # just an environment, not a package to build
+
+#[tool.uv.sources]
+#fypp = { git = "https://github.com/aradi/fypp.git", tag = "3.3" }
+
